@@ -30,4 +30,7 @@ abstract class NoteDao {
     //  Что можно указать в качестве возвращаемого типа?
     //  Напомню, что выше есть метод observeNoteList, который будет вызываться при любом
     //  изменении списка в Базе Данных.
+    @Query("UPDATE note_table SET is_completed = :isCompleted WHERE id = :noteId")
+    abstract fun updateIsCompleted(noteId: Int, isCompleted: Boolean): Completable
+
 }

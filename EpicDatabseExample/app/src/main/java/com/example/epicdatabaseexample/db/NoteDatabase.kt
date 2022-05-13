@@ -12,7 +12,7 @@ import com.example.epicdatabaseexample.db.note.NoteDao
 import com.example.epicdatabaseexample.db.note.NoteEntity
 
 @Database(
-    version = 2,
+    version = 3,
     exportSchema = false,
     entities = [
         NoteEntity::class,
@@ -49,6 +49,13 @@ abstract class NoteDatabase : RoomDatabase() {
                 }
             },
             // TODO Добавить миграцию.
+            object : Migration(2, 3) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE $NOTE_TABLE " +
+                            "ADD COLUMN ${NoteEntity.COLUMN_IS_COMPLETED} INTEGER NOT NULL " +
+                            "DEFAULT (0)")
+                }
+            }
         )
 
         private fun createDatabaseInstance(application: Application): NoteDatabase {
